@@ -5,6 +5,8 @@ void main() {
 }
 
 class CalculadoraApp extends StatelessWidget {
+  const CalculadoraApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,6 +18,8 @@ class CalculadoraApp extends StatelessWidget {
 }
 
 class CalculadoraHomePage extends StatefulWidget {
+  const CalculadoraHomePage({super.key});
+
   @override
   _CalculadoraHomePageState createState() => _CalculadoraHomePageState();
 }
@@ -72,12 +76,12 @@ class _CalculadoraHomePageState extends State<CalculadoraHomePage> {
     return Expanded(
       child: OutlinedButton(
         onPressed: () => buttonPressed(buttonText),
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.all(24.0),
+        ),
         child: Text(
           buttonText,
           style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-        ),
-        style: OutlinedButton.styleFrom(
-          padding: EdgeInsets.all(24.0),
         ),
       ),
     );
@@ -87,19 +91,19 @@ class _CalculadoraHomePageState extends State<CalculadoraHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calculadora'),
+        title: const Text('Calculadora'),
       ),
       body: Column(
         children: <Widget>[
           Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.symmetric(vertical: 24, horizontal: 12),
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
             child: Text(
               _output,
-              style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
             ),
           ),
-          Expanded(
+          const Expanded(
             child: Divider(),
           ),
           Column(
