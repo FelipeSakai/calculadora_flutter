@@ -12,7 +12,7 @@ class CalculadoraApp extends StatelessWidget {
     return MaterialApp(
       title: 'Calculadora Simples',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: CalculadoraHomePage(),
+      home: const CalculadoraHomePage(),
     );
   }
 }
@@ -26,49 +26,58 @@ class CalculadoraHomePage extends StatefulWidget {
 
 class _CalculadoraHomePageState extends State<CalculadoraHomePage> {
   String _output = "0";
-  String _expression = "";
+  String _result = "0"; // Para manter o resultado final
   double num1 = 0;
   double num2 = 0;
   String operand = "";
 
-  buttonPressed(String buttonText) {
-    if (buttonText == "C") {
-      _output = "0";
-      num1 = 0;
-      num2 = 0;
-      operand = "";
-      _expression = "";
-    } else if (buttonText == "+" || buttonText == "-" || buttonText == "/" || buttonText == "x") {
-      num1 = double.parse(_output);
-      operand = buttonText;
-      _output = "0";
-      _expression += buttonText;
-    } else if (buttonText == ".") {
-      if (!_output.contains(".")) {
-        _output = _output + buttonText;
-      }
-    } else if (buttonText == "=") {
-      num2 = double.parse(_output);
-
-      if (operand == "+") {
-        _output = (num1 + num2).toString();
-      } else if (operand == "-") {
-        _output = (num1 - num2).toString();
-      } else if (operand == "x") {
-        _output = (num1 * num2).toString();
-      } else if (operand == "/") {
-        _output = (num1 / num2).toString();
-      }
-
-      num1 = 0;
-      num2 = 0;
-      operand = "";
-    } else {
-      _output = _output + buttonText;
-    }
-
+  void buttonPressed(String buttonText) {
     setState(() {
-      _output = double.parse(_output).toString();
+      if (buttonText == "C") {
+        // Limpar todos os valores
+        _output = "0";
+        _result = "0";
+        num1 = 0;
+        num2 = 0;
+        operand = "";
+      } else if (buttonText == "+" || buttonText == "-" || buttonText == "*" || buttonText == "/") {
+        // Configurar o primeiro número e operador
+        num1 = double.parse(_output);
+        operand = buttonText;
+        _output = "0";
+      } else if (buttonText == ".") {
+        // Adicionar ponto decimal
+        if (!_output.contains(".")) {
+          _output += buttonText;
+        }
+      } else if (buttonText == "=") {
+        // Calcular resultado
+        num2 = double.parse(_output);
+
+        if (operand == "+") {
+          _result = (num1 + num2).toString();
+        } else if (operand == "-") {
+          _result = (num1 - num2).toString();
+        } else if (operand == "*") {
+          _result = (num1 * num2).toString();
+        } else if (operand == "/") {
+          if (num2 != 0) {
+            _result = (num1 / num2).toString();
+          } else {
+            _result = "Erro";
+          }
+        }
+
+        _output = _result;
+        operand = "";
+      } else {
+        // Adicionar o número ao output
+        if (_output == "0") {
+          _output = buttonText;
+        } else {
+          _output += buttonText;
+        }
+      }
     });
   }
 
@@ -81,7 +90,7 @@ class _CalculadoraHomePageState extends State<CalculadoraHomePage> {
         ),
         child: Text(
           buttonText,
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
       ),
     );
